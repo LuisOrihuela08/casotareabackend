@@ -1,0 +1,71 @@
+CREATE TABLE LIBROS
+(
+    ASIN_ID NUMBER PRIMARY KEY,
+    TITULO VARCHAR2(100), -- Por ejemplo, 100 caracteres máximos para el título
+    FECHA_LANZAMIENTO VARCHAR2(20), -- Por ejemplo, 20 caracteres máximos para la fecha de lanzamiento
+    AUTOR VARCHAR2(50), -- Por ejemplo, 50 caracteres máximos para el autor
+    CATEGORIA VARCHAR2(50), -- Por ejemplo, 50 caracteres máximos para la categoría
+    EDITORIAL VARCHAR2(50), -- Por ejemplo, 50 caracteres máximos para la editorial
+    IDIOMA VARCHAR2(20), -- Por ejemplo, 20 caracteres máximos para el idioma
+    PAGINAS NUMBER, -- Suponiendo que la cantidad de páginas es un número
+    PORTADA VARCHAR2(100), -- Por ejemplo, 100 caracteres máximos para la URL de la portada
+    DESCRIPCION VARCHAR2(4000) -- Por ejemplo, 4000 caracteres máximos para la descripción
+);
+
+-- Ejemplo 1
+INSERT INTO LIBROS (ASIN_ID, TITULO, FECHA_LANZAMIENTO, AUTOR, CATEGORIA, EDITORIAL, IDIOMA, PAGINAS, PORTADA, DESCRIPCION)
+VALUES (1, 'El Gran Gatsby', '1925-04-10', 'F. Scott Fitzgerald', 'Ficción', 'Scribner', 'Español', 250, 'url_imagen1.jpg', 'Una novela clásica que explora la decadencia de la alta sociedad en la década de 1920.');
+
+-- Ejemplo 2
+INSERT INTO LIBROS (ASIN_ID, TITULO, FECHA_LANZAMIENTO, AUTOR, CATEGORIA, EDITORIAL, IDIOMA, PAGINAS, PORTADA, DESCRIPCION)
+VALUES (2, '1984', '1949-06-08', 'George Orwell', 'Ciencia Ficción', 'Secker & Warburg', 'Inglés', 328, 'url_imagen2.jpg', 'Una distopía que examina el control totalitario y la vigilancia del Estado.');
+
+-- Ejemplo 3
+INSERT INTO LIBROS (ASIN_ID, TITULO, FECHA_LANZAMIENTO, AUTOR, CATEGORIA, EDITORIAL, IDIOMA, PAGINAS, PORTADA, DESCRIPCION)
+VALUES (3, 'Cien años de soledad', '1967-05-30', 'Gabriel García Márquez', 'Realismo Mágico', 'Editorial Sudamericana', 'Español', 432, 'url_imagen3.jpg', 'Una obra maestra de la literatura latinoamericana que narra la historia de la familia Buendía en Macondo.');
+
+select * from libros;
+select * from Alquileres;
+select * from Lectores;
+
+COMMIT;
+
+CREATE TABLE ALQUILERES (
+    ID_Alquileres NUMBER PRIMARY KEY,
+    idLector NUMBER,
+    id_Libro NUMBER,
+    FechaSalida VARCHAR2(50),
+    FechaEntrada VARCHAR2(50),
+    FOREIGN KEY (id_Libro) REFERENCES LIBROS(ASIN_ID)
+);
+
+INSERT INTO ALQUILERES (ID_Alquileres, idLector, id_Libro, FechaSalida, FechaEntrada)
+VALUES (1, 1, 1, '2023-09-01', '2023-09-15');
+
+describe Alquileres;
+
+
+
+
+
+CREATE TABLE Lectores (
+    DNILector NUMBER PRIMARY KEY,
+    Nombre VARCHAR2(255),
+    Telefono NUMBER,
+    Direccion VARCHAR2(255),
+    CodigoPostal VARCHAR2(10),
+    Observaciones VARCHAR2(1000)
+);
+INSERT INTO Lectores (DNILector, Nombre, Telefono, Direccion, CodigoPostal, Observaciones)
+VALUES (1, 'Juan Pérez', 123456789, 'Calle A, No. 123', '12345', 'Cliente habitual');
+INSERT INTO Lectores (DNILector, Nombre, Telefono, Direccion, CodigoPostal, Observaciones)
+VALUES (2, 'María López', 987654321, 'Avenida B, No. 456', '54321', 'Nuevo lector');
+INSERT INTO Lectores (DNILector, Nombre, Telefono, Direccion, CodigoPostal, Observaciones)
+VALUES (3, 'Carlos García', 555555555, 'Calle C, No. 789', '67890', 'Lector asiduo');
+describe Lectores;
+
+ALTER TABLE ALQUILERES
+ADD CONSTRAINT FK_Lectores_Alquileres
+FOREIGN KEY (idLector)
+REFERENCES LECTORES(DNILector);
+

@@ -1,0 +1,17 @@
+##Primero
+
+CREATE SEQUENCE MI_SECUENCIA
+  START WITH 1  -- El valor inicial de la secuencia
+  INCREMENT BY 1;
+
+##segund0
+
+CREATE OR REPLACE FUNCTION GENERATE_NEW_ID RETURN NUMBER IS
+  new_id NUMBER;
+BEGIN
+  -- Genera un nuevo ID numérico (puedes personalizar la lógica aquí)
+  SELECT MI_SECUENCIA.NEXTVAL INTO new_id FROM DUAL;
+  RETURN new_id;
+END GENERATE_NEW_ID;
+
+##Esto es para genere automaticamente un id nuevo al agregar
